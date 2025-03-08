@@ -1,9 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import Table from './Components/Table';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <h1>Frontend assignment</h1>
+    <Table />
   </StrictMode>
 );
