@@ -42,9 +42,9 @@ const Table = () => {
     setCurrentPage(index);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div role="status">Loading...</div>;
 
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div role="alert">Error: {error}</div>;
 
   const start = currentPage * PER_PAGE;
   const end = start + PER_PAGE;
@@ -58,11 +58,12 @@ const Table = () => {
   return (
     <div>
       <table>
+        <caption>Project Funding Data</caption>
         <thead>
           <tr>
-            <th>S.No</th>
-            <th>Percentage Funded</th>
-            <th>Amount Pledged</th>
+            <th scope="col">S.No</th>
+            <th scope="col">Percentage Funded</th>
+            <th scope="col">Amount Pledged</th>
           </tr>
         </thead>
 
@@ -83,6 +84,7 @@ const Table = () => {
         <button
           disabled={currentPage === 0}
           onClick={() => setCurrentPage((prev) => prev - 1)}
+          aria-label="Go to previous page"
         >
           Prev
         </button>
@@ -96,6 +98,7 @@ const Table = () => {
               className={currentPage === page ? 'active' : ''}
               onClick={() => handleClick(page)}
               key={page}
+              aria-label={`Go to page ${page + 1}`}
             >
               {page + 1}
             </button>
@@ -105,6 +108,7 @@ const Table = () => {
         <button
           disabled={currentPage === page - 1}
           onClick={() => setCurrentPage((prev) => prev + 1)}
+          aria-label="Go to next page"
         >
           Next
         </button>
