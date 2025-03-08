@@ -3,6 +3,8 @@ import { product } from './type';
 import './table-style.css';
 
 const PER_PAGE = 5;
+const PAGINATION_RANGE = PER_PAGE;
+
 const Table = () => {
   const [data, setData] = useState<product[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -40,14 +42,18 @@ const Table = () => {
     setCurrentPage(index);
   };
 
-  const start = currentPage * PER_PAGE;
-  const end = start + PER_PAGE;
-
   if (loading) return <div>Loading...</div>;
 
   if (error) return <div>Error: {error}</div>;
 
-  console.log('data', data.length);
+  const start = currentPage * PER_PAGE;
+  const end = start + PER_PAGE;
+
+  const startPage = Math.max(
+    0,
+    Math.min(currentPage - 2, page - PAGINATION_RANGE)
+  );
+  const endPage = Math.min(page - 1, startPage + PAGINATION_RANGE - 1);
 
   return (
     <div>
@@ -81,14 +87,17 @@ const Table = () => {
           Prev
         </button>
 
-        {Array.from({ length: page }).map((_, key) => {
+        {Array.from(
+          { length: endPage - startPage + 1 },
+          (_, i) => startPage + i
+        ).map((page) => {
           return (
             <button
-              className={currentPage === key ? 'active' : ''}
-              onClick={() => handleClick(key)}
-              key={key}
+              className={currentPage === page ? 'active' : ''}
+              onClick={() => handleClick(page)}
+              key={page}
             >
-              {key + 1}
+              {page + 1}
             </button>
           );
         })}
@@ -99,6 +108,9 @@ const Table = () => {
         >
           Next
         </button>
+      </div>
+      <div className="page-info">
+        Page {currentPage + 1} of {page}
       </div>
     </div>
   );
