@@ -58,7 +58,7 @@ const Table = () => {
   return (
     <div>
       <table>
-        <caption>Project Funding Data</caption>
+        <caption className="caption">Project Funding Data</caption>
         <thead>
           <tr>
             <th scope="col">S.No</th>
