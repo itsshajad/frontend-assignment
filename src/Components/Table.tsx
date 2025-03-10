@@ -49,11 +49,15 @@ const Table = () => {
   const start = currentPage * PER_PAGE;
   const end = start + PER_PAGE;
 
-  const startPage = Math.max(
-    0,
-    Math.min(currentPage - 2, page - PAGINATION_RANGE)
-  );
-  const endPage = Math.min(page - 1, startPage + PAGINATION_RANGE - 1);
+  const halfPage = Math.floor(PAGINATION_RANGE / 2);
+
+  let startPage: number;
+
+  if (currentPage > halfPage) {
+    startPage = Math.min(currentPage - halfPage, page - PAGINATION_RANGE);
+  } else {
+    startPage = 0;
+  }
 
   return (
     <div>
@@ -89,21 +93,20 @@ const Table = () => {
           Prev
         </button>
 
-        {Array.from(
-          { length: endPage - startPage + 1 },
-          (_, i) => startPage + i
-        ).map((page) => {
-          return (
-            <button
-              className={currentPage === page ? 'active' : ''}
-              onClick={() => handleClick(page)}
-              key={page}
-              aria-label={`Go to page ${page + 1}`}
-            >
-              {page + 1}
-            </button>
-          );
-        })}
+        {Array.from({ length: PAGINATION_RANGE }, (_, i) => startPage + i).map(
+          (page) => {
+            return (
+              <button
+                className={currentPage === page ? 'active' : ''}
+                onClick={() => handleClick(page)}
+                key={page}
+                aria-label={`Go to page ${page + 1}`}
+              >
+                {page + 1}
+              </button>
+            );
+          }
+        )}
 
         <button
           disabled={currentPage === page - 1}
